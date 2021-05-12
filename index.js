@@ -118,6 +118,11 @@ function compileSync(options) {
  */
 function compile(options) {
     return new Promise((resolve, reject) => {
+        if (process.platform === "win32") {
+            options.data = options.data.replace(/\\/g, "/");
+            options.outFile = options.outFile.replace(/\\/g, "/");
+        }
+        
         sass.render(options, (err, result) => {
             /* istanbul ignore next */
             if (err) {
